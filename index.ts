@@ -9,6 +9,7 @@ const sizeFactor : number = 5.6
 const colors : Array<string> = ["#F44336", "#3F51B5", "#4CAF50", "#2196F3", "#FF5722"]
 const backColor : string = "#bdbdbd"
 const lineColor : string = "#795548"
+const delay : number = 20
 
 class ScaleUtil {
 
@@ -114,6 +115,26 @@ class State {
         if (this.dir == 0) {
             this.dir = 1 - 2 * this.prevScale 
             cb()
+        }
+    }
+}
+
+class Animator {
+
+    animated : boolean = false 
+    interval : number 
+    
+    start(cb : Function) {
+        if (!this.animated) {
+            this.animated = true 
+            this.interval = setInterval(cb, delay)
+        }
+    }
+    
+    stop(cb : Function) {
+        if (this.animated) {
+            this.animated = false 
+            clearInterval(this.interval)
         }
     }
 }
