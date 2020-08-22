@@ -1,8 +1,9 @@
 const w : number = window.innerWidth 
 const h : number = window.innerHeight 
-const scGap : number = 0.02 
+const parts : number = 2
+const scGap : number = 0.02 / parts  
 const strokeFactor : number = 90 
-const sizeFactor : number = 5.6 
+const sizeFactor : number = 9.9 
 const colors : Array<string> = ["#F44336", "#3F51B5", "#4CAF50", "#2196F3", "#FF5722"]
 const backColor : string = "#bdbdbd"
 const lineColor : string = "#795548"
@@ -49,7 +50,7 @@ class DrawingUtil {
             const sk : number = 2 * j - 1
             const start : number = w * 0.5 * (1 - j)
             const dx : number = w * 0.5 * sk * sci 
-            const ystart : number = h / 2
+            const ystart : number = h * 0.5 + h * 0.5 * (1 - j)
             const dy : number = h * 0.5 * sci  
             DrawingUtil.drawLine(context, start, ystart, start + dx, ystart - dy)    
         }
