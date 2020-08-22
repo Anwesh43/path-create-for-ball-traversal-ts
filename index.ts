@@ -1,5 +1,3 @@
-import { fcall } from "q"
-
 const w : number = window.innerWidth 
 const h : number = window.innerHeight 
 const scGap : number = 0.02 
@@ -142,11 +140,11 @@ class Animator {
     }
 }
 
-class Node {
+class CanvasNode {
 
     protected state : State = new State()
-    protected next : Node = null 
-    protected prev : Node = null 
+    protected next : CanvasNode = null 
+    protected prev : CanvasNode = null 
 
     update(cb : Function) {
         this.state.update(cb)
@@ -160,16 +158,16 @@ class Node {
         this.state.startUpdating(cb)
     }
 
-    setPrev(node : Node) {
+    setPrev(node : CanvasNode) {
         this.prev = node;
     }
 
-    setNext(next : Node) {
+    setNext(next : CanvasNode) {
         this.next = next;
     }
 
-    getNext(dir : number, cb : Function) : Node {
-        var curr : Node = this.prev 
+    getNext(dir : number, cb : Function) : CanvasNode {
+        var curr : CanvasNode = this.prev 
         if (dir == 1) {
             curr = this.next 
         }
@@ -181,14 +179,14 @@ class Node {
     }
 }
 
-class LineNode extends Node {
+class LineNode extends CanvasNode {
 
     draw(context : CanvasRenderingContext2D) {
         DrawingUtil.drawLineNode(context, this.state.scale);
     }
 }
 
-class CircleNode extends Node {
+class CircleNode extends CanvasNode {
 
     constructor(private i : number) {
         super()
@@ -210,8 +208,8 @@ class LineCircleContainer {
 
      
     dir : number = 1
-    root : Node = new LineNode()
-    curr : Node = this.root
+    root : CanvasNode = new LineNode()
+    curr : CanvasNode = this.root
     constructor() {
         this.root.setNext(new CircleNode(0))
     }
