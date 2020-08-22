@@ -156,6 +156,9 @@ class Node {
     startUpdating(cb : Function) {
         this.state.startUpdating(cb)
     }
+    setPrev(node : Node) {
+        this.prev = node;
+    }
 
     getNext(dir : number, cb : Function) : Node {
         var curr : Node = this.prev 
@@ -174,5 +177,23 @@ class LineNode extends Node {
 
     draw(context : CanvasRenderingContext2D) {
         DrawingUtil.drawLineNode(context, this.state.scale);
+    }
+}
+
+class CircleNode extends Node {
+
+    constructor(private i : number) {
+        super()
+    }
+
+    addNeighbor() {
+        if (this.i < colors.length - 1) {
+            this.next = new CircleNode(this.i + 1)
+            this.next.setPrev(this) 
+        }
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        DrawingUtil.drawCircleNode(context, this.i, this.state.scale)
     }
 }
