@@ -156,8 +156,13 @@ class Node {
     startUpdating(cb : Function) {
         this.state.startUpdating(cb)
     }
+
     setPrev(node : Node) {
         this.prev = node;
+    }
+
+    setNext(next : Node) {
+        this.next = next;
     }
 
     getNext(dir : number, cb : Function) : Node {
@@ -195,5 +200,57 @@ class CircleNode extends Node {
 
     draw(context : CanvasRenderingContext2D) {
         DrawingUtil.drawCircleNode(context, this.i, this.state.scale)
+    }
+}
+
+class LineCircleContainer {
+
+     
+    dir : number = 1
+    root : Node = new LineNode()
+    curr : Node = this.root
+    constructor() {
+        this.root.setNext(new CircleNode(0))
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        this.root.draw(context)
+        if (this.curr != this.root) {
+            this.curr.draw(context)
+        }
+    }
+
+    update(cb : Function) {
+        this.curr.update(() => {
+            this.curr = this.curr.getNext(this.dir, () => {
+                this.dir *= -1
+            })
+            cb()
+        })
+    }
+
+    startUpdating(cb : Function) {
+        this.curr.startUpdating(cb)
+    }
+}
+
+class Renderer {
+
+    lcc : LineCircleContainer = new LineCircleContainer()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.lcc.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.lcc.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.lcc.update(() => {
+                    this.animator.stop(cb)
+                })
+            })
+        })
     }
 }
