@@ -69,6 +69,7 @@ class Stage {
 
     canvas : HTMLCanvasElement = document.createElement('canvas')
     context : CanvasRenderingContext2D 
+    renderer : Renderer = new Renderer()
 
     initCanvas() {
         this.canvas.width = w 
@@ -80,11 +81,14 @@ class Stage {
     render() {
         this.context.fillStyle = backColor 
         this.context.fillRect(0, 0, w, h)
+        this.renderer.render(this.context)
     }
 
     handleTap() {
         this.canvas.onmousedown = () => {
-
+            this.renderer.handleTap(() => {
+                this.render()
+            })
         }
     }
 
@@ -103,6 +107,7 @@ class State {
     prevScale : number = 0
 
     update(cb : Function) {
+        console.log(this.scale)
         this.scale += scGap * this.dir 
         if (Math.abs(this.scale - this.prevScale) > 1) {
             this.scale = this.prevScale + this.dir 
@@ -190,6 +195,7 @@ class CircleNode extends CanvasNode {
 
     constructor(private i : number) {
         super()
+        this.addNeighbor()
     }
 
     addNeighbor() {
