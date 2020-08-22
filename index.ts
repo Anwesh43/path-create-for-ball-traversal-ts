@@ -169,3 +169,10 @@ class Node {
         return this 
     }
 }
+
+class LineNode extends Node {
+
+    draw(context : CanvasRenderingContext2D) {
+        DrawingUtil.drawLineNode(context, this.state.scale);
+    }
+}
