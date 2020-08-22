@@ -1,8 +1,7 @@
 import { fcall } from "q"
 
 const w : number = window.innerWidth 
-const h : number = window.innerHeight
-const circles : number = 5  
+const h : number = window.innerHeight 
 const scGap : number = 0.02 
 const strokeFactor : number = 90 
 const sizeFactor : number = 5.6 
@@ -44,6 +43,9 @@ class DrawingUtil {
     static drawLineNode(context : CanvasRenderingContext2D, scale : number) {
         const sc1 : number = ScaleUtil.divideScale(scale, 0, 2)
         const sc2 : number = ScaleUtil.divideScale(scale, 1, 2)
+        context.lineCap = 'round'
+        context.lineWidth = Math.min(w, h) / strokeFactor 
+        context.strokeStyle = lineColor 
         for (var j = 0; j < 2; j++) {
             const sci : number = ScaleUtil.divideScale(scale, j, 2)
             const sk : number = 2 * j - 1
@@ -58,6 +60,7 @@ class DrawingUtil {
     static drawCircleNode(context : CanvasRenderingContext2D, i : number, scale : number) {
         const sc1 : number = ScaleUtil.divideScale(scale, 0, 2)
         const sc2 : number = ScaleUtil.divideScale(scale, 1, 2)
+        context.fillStyle = colors[i]
         const sf : number = ScaleUtil.sinify(sc2)
         const r : number = Math.min(w, h) / sizeFactor 
         DrawingUtil.drawCircle(context, w * 0.5 - w * 0.5 * sf, h * (1 - sc2), r * sc1)
