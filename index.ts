@@ -138,3 +138,34 @@ class Animator {
         }
     }
 }
+
+class Node {
+
+    protected state : State = new State()
+    protected next : Node = null 
+    protected prev : Node = null 
+
+    update(cb : Function) {
+        this.state.update(cb)
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+
+    }
+
+    startUpdating(cb : Function) {
+        this.state.startUpdating(cb)
+    }
+
+    getNext(dir : number, cb : Function) : Node {
+        var curr : Node = this.prev 
+        if (dir == 1) {
+            curr = this.next 
+        }
+        if (!!curr) {
+            return curr 
+        }
+        cb()
+        return this 
+    }
+}
