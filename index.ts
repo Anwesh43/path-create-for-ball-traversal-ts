@@ -1,6 +1,6 @@
 const w : number = window.innerWidth 
 const h : number = window.innerHeight 
-const parts : number = 2
+const parts : number = 3
 const scGap : number = 0.02 / parts  
 const strokeFactor : number = 90 
 const sizeFactor : number = 9.9 
@@ -40,8 +40,8 @@ class DrawingUtil {
     }
 
     static drawLineNode(context : CanvasRenderingContext2D, scale : number) {
-        const sc1 : number = ScaleUtil.divideScale(scale, 0, 2)
-        const sc2 : number = ScaleUtil.divideScale(scale, 1, 2)
+        const sc1 : number = ScaleUtil.divideScale(scale, 0, parts)
+        const sc2 : number = ScaleUtil.divideScale(scale, 1, parts)
         context.lineCap = 'round'
         context.lineWidth = Math.min(w, h) / strokeFactor 
         context.strokeStyle = lineColor 
@@ -57,12 +57,13 @@ class DrawingUtil {
     }
 
     static drawCircleNode(context : CanvasRenderingContext2D, i : number, scale : number) {
-        const sc1 : number = ScaleUtil.divideScale(scale, 0, 2)
-        const sc2 : number = ScaleUtil.divideScale(scale, 1, 2)
+        const sc1 : number = ScaleUtil.divideScale(scale, 0, parts)
+        const sc2 : number = ScaleUtil.divideScale(scale, 1, parts)
+        const sc3 : number = ScaleUtil.divideScale(scale, 2, parts)
         context.fillStyle = colors[i]
         const sf : number = ScaleUtil.sinify(sc2)
         const r : number = Math.min(w, h) / sizeFactor 
-        DrawingUtil.drawCircle(context, w * 0.5 - w * 0.5 * sf, h * (1 - sc2), r * sc1)
+        DrawingUtil.drawCircle(context, w * 0.5 - w * 0.5 * sf, h * (1 - sc2), r * (sc1 - sc3))
     }
 }
 
